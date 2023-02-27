@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+{% block title %}Admin - Personas{% endblock %}
+
+{% block content %}
+    <h3>Personas</h3>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Nombre</th>
+                <th>Email</th>
+                <th></th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for record in records %}
+            <tr>
+                <td>{{ record.name }}</td>
+                <td>{{ record.email }}</td>
+                <td><a href="people/{{ record.id }}/delete">Eliminar</a></td>
+                <td><a href="people/{{ record.id }}/edit">Editar</a></td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="people/create">Crear persona</a><br>
+    <a href="/admin">Volver</a>
+{% endblock %}

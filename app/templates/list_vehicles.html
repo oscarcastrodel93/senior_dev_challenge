@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+{% block title %}Admin - Vehículos{% endblock %}
+
+{% block content %}
+    <h3>Vehículos</h3>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Placa / Patente</th>
+                <th>Marca</th>
+                <th>Color</th>
+                <th>Propietario</th>
+                <th></th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for record in records %}
+            <tr>
+                <td>{{ record.licence_plate }}</td>
+                <td>{{ record.brand }}</td>
+                <td>{{ record.color }}</td>
+                <td>{{ record.owner.name }}</td>
+                <td><a href="vehicles/{{ record.id }}/delete">Eliminar</a></td>
+                <td><a href="vehicles/{{ record.id }}/edit">Editar</a></td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+    <a href="vehicles/create">Crear vehículo</a><br>
+    <a href="/admin">Volver</a>
+{% endblock %}

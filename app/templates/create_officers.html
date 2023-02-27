@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+{% block title %}Admin - Oficiales{% endblock %}
+
+{% block content %}
+    <form action="#" method="post">
+        Nombre: <input type="text" name="name" value="{{record.name}}" required>
+        No. Identificación: <input type="text" name="identification_number" value="{{record.identification_number}}" required>
+        <button type="submit">Guardar</button>
+    </form>
+    <a href="/admin/officers">Volver</a>
+{% endblock %}

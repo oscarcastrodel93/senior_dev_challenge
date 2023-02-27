@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+{% block title %}Admin - Personas{% endblock %}
+
+{% block content %}
+    <form action="#" method="post">
+        Nombre: <input type="text" name="name" value="{{record.name}}" required>
+        Email: <input type="email" name="email" value="{{record.email}}" required>
+        <button type="submit">Guardar</button>
+    </form>
+    <a href="/admin/people">Volver</a>
+{% endblock %}

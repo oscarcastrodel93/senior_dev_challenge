@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% block title %}Admin - Vehículos{% endblock %}
+
+{% block content %}
+<body>
+    <form action="#" method="post">
+        Placa / Patente: <input type="text" name="licence_plate" value="{{record.licence_plate}}" required>
+        Marca: <input type="text" name="brand" value="{{record.brand}}" required>
+        Color: <input type="text" name="color" value="{{record.color}}" required>
+        Propietario:
+        <select name="owner_id" required>
+            <option value=""></option>
+            {% for person in params.people %}
+                <option value="{{person.id}}"
+                {%if person.id == record.owner_id%}selected{%endif%}
+                >{{person.name}}</option>
+            {% endfor %}
+        </select>
+        <button type="submit">Guardar</button>
+    </form>
+    <a href="/admin/vehicles">Volver</a>
+{% endblock %}

@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+{% block title %}Admin - Oficiales{% endblock %}
+
+{% block content %}
+    <h3>Oficiales</h3>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Nombre</th>
+                <th>No. Identificación</th>
+                <th></th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for record in records %}
+            <tr>
+                <td>{{ record.name }}</td>
+                <td>{{ record.identification_number }}</td>
+                <td><a href="officers/{{ record.id }}/delete">Eliminar</a></td>
+                <td><a href="officers/{{ record.id }}/edit">Editar</a></td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="officers/create">Crear oficial</a><br>
+    <a href="/admin">Volver</a>
+{% endblock %}
