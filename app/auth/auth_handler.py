@@ -10,6 +10,9 @@ JWT_ALGORITHM = config("algorithm")
 
 
 def signJWT(officer_id: str) -> Dict[str, str]:
+    """
+    Creates a new JTW Token by officer id and expiration date
+    """
     payload = {
         "officer_id": officer_id,
         "expires": time.time() + 600

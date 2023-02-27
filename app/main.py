@@ -42,6 +42,8 @@ def get_db():
 @app.post("/login")
 async def officer_login(officer: schemas.OfficerLogin, db: Session = Depends(get_db)):
     """
+    API to login a officer with a specified identification_number
+
     TODO: add password to officer
     """
     
@@ -55,6 +57,8 @@ async def officer_login(officer: schemas.OfficerLogin, db: Session = Depends(get
 @app.post("/cargar_infraccion", status_code=status.HTTP_201_CREATED, dependencies=[Depends(JWTBearer())])
 async def create_fine(fine: schemas.FineCreate, db: Session = Depends(get_db)):
     """
+    API to create a fine with specified payload.
+
     TODO: add relationship between fine and officer
     """
     
@@ -75,6 +79,9 @@ async def create_fine(fine: schemas.FineCreate, db: Session = Depends(get_db)):
 
 @app.get("/generar_informe", response_model=list[schemas.FineList])
 async def list_fines(db: Session = Depends(get_db), email: str = None):
+    """
+    API to list available fines by email
+    """
     if not email:
         raise HTTPException(status_code=400, detail="Parametro requerido: email")
     
@@ -89,11 +96,17 @@ async def list_fines(db: Session = Depends(get_db), email: str = None):
 
 @app.get("/admin", response_class=HTMLResponse, include_in_schema=False)
 async def admin(request: Request):
+    """
+    Renders index admin page
+    """
     return templates.TemplateResponse("admin.html", {"request": request})
 
 
 @app.get("/admin/{module}", response_class=HTMLResponse, include_in_schema=False)
 async def list_records(request: Request, module: str, db: Session = Depends(get_db)):
+    """
+    Renders page to list all records by given module name (plural)
+    """
     records = crud.list_records(db, model_name=module)
     try:
         return templates.TemplateResponse(f"list_{module}.html", {
@@ -106,6 +119,10 @@ async def list_records(request: Request, module: str, db: Session = Depends(get_
 @app.get("/admin/{module}/create", response_class=HTMLResponse, include_in_schema=False)
 @app.get("/admin/{module}/{record_id}/edit/", response_class=HTMLResponse, include_in_schema=False)
 async def form_save_record(request: Request, module: str, record_id: int | None = None, db: Session = Depends(get_db)):
+    """
+    Renders form to create or update a record, given a module name (plural)
+    When module it's vehicles, injects people data to populate owner select field.
+    """
     params = {}
     record = {}
     if module == "vehicles":
@@ -122,6 +139,9 @@ async def form_save_record(request: Request, module: str, record_id: int | None 
 @app.post("/admin/{module}/create", response_class=HTMLResponse, include_in_schema=False)
 @app.post("/admin/{module}/{record_id}/edit/", response_class=HTMLResponse, include_in_schema=False)
 async def save_record(request: Request, module: str, record_id: int | None = None, db: Session = Depends(get_db)):
+    """
+    Receives post form to create or update a record, given a module name (plural) and record_id (if updating)
+    """
     form_data = await request.form()
     form_data = jsonable_encoder(form_data)
 
@@ -137,5 +157,8 @@ async def save_record(request: Request, module: str, record_id: int | None = Non
 
 @app.get("/admin/{module}/{record_id}/delete", response_class=HTMLResponse, include_in_schema=False)
 async def delete_record(request: Request, module: str, record_id:int, db: Session = Depends(get_db)):
+    """
+    Deletes a record given a module name (plural) and record_id
+    """
     crud.delete_record(db, model_name=module, record_id=record_id)
     return RedirectResponse(f"/admin/{module}", status_code=status.HTTP_302_FOUND)
